@@ -1,37 +1,61 @@
-%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-  .container-fluid
-    %a.navbar-brand{:href => "#"} Navbar
-    %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "collapse", :type => "button"}
-      %span.navbar-toggler-icon
-    #navbarSupportedContent.collapse.navbar-collapse
-      %ul.navbar-nav.me-auto.mb-2.mb-lg-0
-        %li.nav-item
-          %a.nav-link.active{"aria-current" => "page", :href => "#"} Home
-        %li.nav-item
-          %a.nav-link{:href => "#"} Link
-        %li.nav-item.dropdown
-          %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
-            Dropdown
-          %ul.dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-            %li
-              %a.dropdown-item{:href => "#"} Action
-            %li
-              %a.dropdown-item{:href => "#"} Another action
-            %li
-              %hr.dropdown-divider/
-            %li
-              %a.dropdown-item{:href => "#"} Something else here
-        %li.nav-item
-          %a.nav-link.disabled{"aria-disabled" => "true", :href => "#", :tabindex => "-1"} Disabled
-      %form.d-flex
-        %input.form-control.me-2{"aria-label" => "Search", :placeholder => "Search", :type => "search"}/
-        %button.btn.btn-outline-success{:type => "submit"} Search
+.p-5.mb-4.bg-dark.text-white.rounded-3
+  .col-md-12
+    .h-75.p-4.bg-dark.rounded-3
+      .h1.text-center
+        What do you want to learn today?
+    .form-inline.my-2.my-lg-0.d-flex.justify-content-center
+      = form_tag(courses_path, method: :get) do
+        .input-group
+          = text_field_tag :title, params[:title], autocomplete: 'off', placeholder: "Search", class: "form-control"
+          %span.input-group-append
+            %button.btn.btn-primary.btn-sm{:type => "submit", :style => "height: 38px"}
+              %span.fa.fa-search{"aria-hidden" => "true"}
 
-.fa.fa-flag
-.fab.fa-amazon 
-= link_to root_path do
-  .fa.fa-home
+.card-group
+  .card.card-body
+    %h1
+      .fa.fa-graduation-cap
+    = Course.count
+    online courses
+    .row
+    Explore a variety of fresh topics
+  .card.card-body
+    %h1
+      .fa.fa-chalkboard-teacher
+    = Course.distinct.count(:user_id)
+    expert instructors
+    .row
+    Find the right instructor for you
+  .card.card-body
+    %h1 
+      .fa.fa-user-graduate
+    = User.count
+    active learners
+    .row
+    Join the Knowledge sharing community
+  .card.card-body
+    %h1
+      .fa.fa-infinity
+    Lifetime access
+    .row
+    Learn on your schedule  
 
-= link_to courses_path, class: 'btn btn-success' do
-  .fa.fa-book
-  Course
+%hr
+%h2{class: "mb-3"}
+  Popular Courses
+.d-flex.justify-content-between.flex-wrap
+  - @courses.each do |course|
+    = render 'courses/course', course: course
+%hr
+%h2{class: "mb-3"}
+  Top Rated Courses
+.d-flex.justify-content-between.flex-wrap
+  - @courses.each do |course|
+    = render 'courses/course', course: course
+%hr
+%h2{class: "mb-3"}
+  Most Recent Courses
+.d-flex.justify-content-between.flex-wrap
+  - @latest_courses.each do |course|
+    = render 'courses/course', course: course
+  
