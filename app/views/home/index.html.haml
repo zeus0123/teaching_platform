@@ -1,0 +1,61 @@
+.p-5.mb-4.bg-dark.text-white.rounded-3
+  .col-md-12
+    .h-75.p-4.bg-dark.rounded-3
+      .h1.text-center
+        What do you want to learn today?
+    .form-inline.my-2.my-lg-0.d-flex.justify-content-center
+      = form_tag(courses_path, method: :get) do
+        .input-group
+          = text_field_tag :title, params[:title], autocomplete: 'off', placeholder: "Search", class: "form-control"
+          %span.input-group-append
+            %button.btn.btn-primary.btn-sm{:type => "submit", :style => "height: 38px"}
+              %span.fa.fa-search{"aria-hidden" => "true"}
+
+.card-group
+  .card.card-body
+    %h1
+      .fa.fa-graduation-cap
+    = Course.count
+    online courses
+    .row
+    Explore a variety of fresh topics
+  .card.card-body
+    %h1
+      .fa.fa-chalkboard-teacher
+    = Course.distinct.count(:user_id)
+    expert instructors
+    .row
+    Find the right instructor for you
+  .card.card-body
+    %h1 
+      .fa.fa-user-graduate
+    = User.count
+    active learners
+    .row
+    Join the Knowledge sharing community
+  .card.card-body
+    %h1
+      .fa.fa-infinity
+    Lifetime access
+    .row
+    Learn on your schedule  
+
+%hr
+%h2{class: "mb-3"}
+  Popular Courses
+.d-flex.justify-content-between.flex-wrap
+  - @courses.each do |course|
+    = render 'courses/course', course: course
+%hr
+%h2{class: "mb-3"}
+  Top Rated Courses
+.d-flex.justify-content-between.flex-wrap
+  - @courses.each do |course|
+    = render 'courses/course', course: course
+%hr
+%h2{class: "mb-3"}
+  Most Recent Courses
+.d-flex.justify-content-between.flex-wrap
+  - @latest_courses.each do |course|
+    = render 'courses/course', course: course
+  

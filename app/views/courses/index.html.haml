@@ -1,0 +1,10 @@
+%h1 
+  Courses
+  = @courses.count
+
+.d-flex.justify-content-between.flex-wrap
+  - @courses.each do |course|
+    = render 'courses/course', course: course
+
+%br
+
